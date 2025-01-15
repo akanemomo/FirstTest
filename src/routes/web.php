@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\ContactsController; // 追加
+use App\Http\Controllers\ContactsController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,18 +17,35 @@ use App\Http\Controllers\ContactsController; // 追加
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// トップページ（お問い合わせフォーム入力画面）
+Route::get('/', [ContactsController::class, 'index'])->name('contacts.index');
 
-Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
-Route::post('/register', [RegisteredUserController::class, 'store']);
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
+// お問い合わせフォーム確認画面
+Route::post('/confirm', [ContactsController::class, 'confirm'])->name('contacts.confirm');
+
+
+Route::post('/store', [ContactsController::class, 'store'])->name('contact.store');
+
+// お問い合わせフォーム送信処理（サンクスページ表示）
+Route::post('/thanks', [ContactsController::class, 'store'])->name('contacts.store');
+
+// サンクスページ
+Route::get('/thanks', [ContactsController::class, 'thanks'])->name('contacts.thanks');
+
+// ユーザー登録
+Route::get('/register', [RegisteredUserController::class, 'create'])->name('register'); // 登録ページ表示
+Route::post('/register', [RegisteredUserController::class, 'store']); // ユーザー登録処理
+
+// ログイン
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login'); // ログインページ表示
+Route::post('/login', [LoginController::class, 'login']); // ログイン処理
+
+// ホームページ（ログイン後のページ）
 Route::get('/home', function () {
     return view('home');
-});
+})->name('home');
 
-// ここから追加
-Route::get('/contacts', [ContactsController::class, 'index'])->name('contacts.index');
-Route::post('/contacts', [ContactsController::class, 'store'])->name('contacts.store');
+// 管理画面 - 検索機能
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+Route::get('/admin/search', [AdminController::class, 'search'])->name('admin.search'); // 検索処理
+Route::delete('/admin/delete/{id}', [AdminController::class, 'delete'])->name('admin.delete'); // 削除処理

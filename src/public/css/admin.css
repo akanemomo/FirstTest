@@ -1,0 +1,17 @@
+.admin-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.admin-page table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-page th,
+.admin-page td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
