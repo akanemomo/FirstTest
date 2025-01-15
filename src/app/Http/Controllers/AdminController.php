@@ -1,5 +1,5 @@
 <?php
-
+// 不要なインポートを削除
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
@@ -8,22 +8,25 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-// 管理画面の表示
+    // 管理画面の表示
     public function index()
     {
         $categories = Category::all(); // お問い合わせの種類を取得
-        $contacts = Contact::paginate(10); // 連絡先情報をページネーションで取得
+        $contacts = Contact::with('category')->paginate(10); // 関連するカテゴリを一度に取得しページネーションで表示
         return view('admin', compact('contacts', 'categories'));
     }
 
     // 検索処理
     public function search(Request $request)
     {
-        $query = Contact::query();
+        $query = Contact::with('category'); // 'category' を eager load する
 
         // 検索条件を追加
         if ($request->filled('name')) {
-            $query->where('first_name', 'like', '%' . $request->name . '%')->orWhere('last_name', 'like', '%' . $request->name . '%');
+            $query->where(function ($q) use ($request) {
+                $q->where('first_name', 'like', '%' . $request->name . '%')
+                    ->orWhere('last_name', 'like', '%' . $request->name . '%');
+            });
         }
         if ($request->filled('email')) {
             $query->where('email', 'like', '%' . $request->email . '%');
@@ -39,7 +42,6 @@ class AdminController extends Controller
         }
 
         $contacts = $query->paginate(10); // ページネーションで取得
-
         $categories = Category::all(); // カテゴリ情報を再度取得
 
         return view('admin', compact('contacts', 'categories'));

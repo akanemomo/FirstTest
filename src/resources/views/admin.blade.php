@@ -38,7 +38,8 @@
             <input type="date" name="date" id="date" value="{{ request()->date }}">
         </div>
         <button type="submit">検索</button>
-        <button type="reset" onclick="window.location.href='{{ route('admin.index') }}'">リセット</button>
+        <button type="reset" onclick="window.location.href='{{ route('admin.index') }}'; return false;">リセット</button>
+
     </form>
 
     <h2>検索結果</h2>

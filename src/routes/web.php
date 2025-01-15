@@ -23,29 +23,25 @@ Route::get('/', [ContactsController::class, 'index'])->name('contacts.index');
 // お問い合わせフォーム確認画面
 Route::post('/confirm', [ContactsController::class, 'confirm'])->name('contacts.confirm');
 
-
-Route::post('/store', [ContactsController::class, 'store'])->name('contact.store');
-
 // お問い合わせフォーム送信処理（サンクスページ表示）
-Route::post('/thanks', [ContactsController::class, 'store'])->name('contacts.store');
+Route::post('/store', [ContactsController::class, 'store'])->name('contacts.store');
 
 // サンクスページ
 Route::get('/thanks', [ContactsController::class, 'thanks'])->name('contacts.thanks');
 
-// ユーザー登録
-Route::get('/register', [RegisteredUserController::class, 'create'])->name('register'); // 登録ページ表示
-Route::post('/register', [RegisteredUserController::class, 'store']); // ユーザー登録処理
+// 登録ページ表示
+Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+Route::post('/register', [RegisteredUserController::class, 'store']);
 
-// ログイン
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login'); // ログインページ表示
-Route::post('/login', [LoginController::class, 'login']); // ログイン処理
+// ログインページ表示
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');  // GETリクエスト
 
-// ホームページ（ログイン後のページ）
-Route::get('/home', function () {
-    return view('home');
-})->name('home');
+// ログイン処理
+Route::post('/login', [LoginController::class, 'login']);  // POSTリクエスト
+
+// 管理画面 - ダッシュボードを削除し、indexに変更
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');  // 変更：dashboard → index
 
 // 管理画面 - 検索機能
-Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-Route::get('/admin/search', [AdminController::class, 'search'])->name('admin.search'); // 検索処理
-Route::delete('/admin/delete/{id}', [AdminController::class, 'delete'])->name('admin.delete'); // 削除処理
+Route::get('/admin/search', [AdminController::class, 'search'])->name('admin.search');
+Route::delete('/admin/delete/{id}', [AdminController::class, 'delete'])->name('admin.delete');

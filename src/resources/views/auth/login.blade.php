@@ -18,7 +18,16 @@
                 <div class="error">{{ $message }}</div>
             @enderror
         </div>
-        <button type="submit">ログインする</button>
+        <button type="submit">ログイン</button>
     </form>
-    <p>まだアカウントをお持ちでないですか？ <a href="{{ route('register') }}">登録</a></p>
+@endsection
+
+@section('styles')
+    <style>
+        .error {
+            color: red;
+            font-size: 0.875em;
+            margin-top: 5px;
+        }
+    </style>
 @endsection
