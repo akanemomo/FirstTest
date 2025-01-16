@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}">
     <link rel="stylesheet" href="{{ asset('css/common.css') }}">
     @yield('css') <!-- 任意で追加のCSS -->
+
+    <!-- CSRFトークンをmetaタグで埋め込む -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body>
@@ -30,5 +33,6 @@
     <footer>
         <p>© 2025 Todo Application</p>
     </footer>
-    </body>
+</body>
+
 </html>

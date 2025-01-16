@@ -6,7 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contact extends Model
 {
-    // その他のコード...
+    // マスアサインメント保護
+    protected $fillable = [
+        'first_name', 'last_name', 'gender', 'email', 'tel', 'address', 'category_id', 'detail'
+    ];
+
+    // 日付フィールドを自動的にCarbonインスタンスに変換
+    protected $dates = ['created_at', 'updated_at'];
 
     /**
      * ContactとCategoryのリレーションシップ
@@ -16,3 +22,4 @@ class Contact extends Model
         return $this->belongsTo(Category::class);  // ContactはCategoryに所属
     }
 }
+

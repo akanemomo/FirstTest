@@ -39,14 +39,13 @@
         </div>
         <button type="submit">検索</button>
         <button type="reset" onclick="window.location.href='{{ route('admin.index') }}'; return false;">リセット</button>
-
     </form>
 
     <h2>検索結果</h2>
     <table>
         <thead>
             <tr>
-                <th>名前</th>
+                <th>お名前</th>
                 <th>メールアドレス</th>
                 <th>性別</th>
                 <th>お問い合わせの種類</th>
@@ -104,4 +103,3 @@
         {{ $contacts->links() }}
     </div>
 @endsection
-
